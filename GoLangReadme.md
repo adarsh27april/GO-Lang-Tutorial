@@ -14,7 +14,7 @@
   - [Memory Management in GO Lang](#memory-management-in-go-lang)
   - [Pointers](#pointers)
   - [Arrays in Go Lang](#arrays-in-go-lang)
-  - [Slices](#slices)
+  - [Slices in GO Lang](#slices-in-go-lang)
   - [Conditionals](#conditionals)
     - [THE INITIAL STATEMENT OF AN IF BLOCK](#the-initial-statement-of-an-if-block)
   - [Functions](#functions)
@@ -457,10 +457,65 @@ fmt.Println("fruitList length is: ", len(fruitList))
 
 // initialisation at time of declaration.
 var vegList = [3]string{"potato", "mushroom", "beans"}
+fmt.Printf("%T\n", vegList) // [3]string
 ```
 
-## Slices
+## Slices in GO Lang
 [ToC](#table-of-contents)
+
+If we define the size inside [] then it is an array but if we do not mention the size then it is a `slice`.
+
+GO Slice memory can be expanded automatically based on the values appended
+
+```go
+var fruitList = []string{"Mango", "Apple", "Bananas"} 
+fmt.Printf("type of fruitList: %T\n", fruitList) // []string
+fmt.Println(fruitList) // [Mango Apple Bananas]
+
+fruitList = append(fruitList, "Peach", "Kiwi") // to add to the slice at the end
+fmt.Println("updated: ", fruitList) // updated:  [Mango Apple Bananas Peach Kiwi]
+
+// deleting in slices
+fruitList = append(fruitList[1:3])
+fmt.Println(fruitList) // [Apple Bananas]
+// it's like
+// [startIndex : endIndex)
+```
+
+Slices using `make()`
+
+```go
+highScores := make([]int, 4)  // allocate memory of type []int i.e., slice_of_int with deafult size 4
+highScores[0] = 999
+highScores[1] = 888
+highScores[2] = 777
+highScores[3] = 666
+fmt.Println(highScores) // [999 888 777 666]
+
+
+highScores[4] = 666 // will throw error since default allocation size is 4 only
+// panic: runtime error: index out of range [4] with length 4
+
+
+// but if I use append here
+highScores = append(highScores, 555, 444, 333, 222)
+fmt.Println(highScores)
+// when using append, it will reallocate the memory for all prev & upcoming vals and all new values will be re-allocated
+
+
+// sorting functions for slice
+sort.Ints(highScores)
+fmt.Println(highScores) // [222 333 444 555 666 777 888 999]
+
+
+// remove a value from slices based on index
+var technologies = []string{"reactjs", "nestjs", "gokit", "django", "flask"}
+fmt.Println(technologies) // [reactjs nestjs gokit django flask]
+indexToRemove := 3 // i.e., remove `django`
+technologies = append(technologies[:indexToRemove], technologies[indexToRemove+1:]...)
+fmt.Println(technologies) // [reactjs nestjs gokit flask]
+```
+
 
 
 ## Conditionals

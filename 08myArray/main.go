@@ -15,4 +15,6 @@ func main() {
 
 	var vegList = [3]string{"potato", "mushroom", "beans"}
 	fmt.Println(vegList)
+	fmt.Printf("Type of vegList : %T\n", vegList)
+
 }
