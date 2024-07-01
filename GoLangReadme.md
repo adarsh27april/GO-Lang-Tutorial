@@ -4,20 +4,27 @@
 - [Go Comparision with other Programming languages](#go-comparision-with-other-programming-languages)
 - [Some Go Basics](#some-go-basics)
 - [Go Lang Basic Syntax](#go-lang-basic-syntax)
-  - [Types in Go Lang](#types-in-go-lang)
-  - [Constants in Go](#constants-in-go)
-  - [User Input in Go Lang](#user-input-in-go-lang)
-  - [Conversions in GO Lang](#conversions-in-go-lang)
-  - [FORMATTING STRINGS IN GO](#formatting-strings-in-go)
-  - [Story of Time in GO Lang](#story-of-time-in-go-lang)
-  - [Building for Windows, Linux, Mac](#building-for-windows-linux-mac)
-  - [Memory Management in GO Lang](#memory-management-in-go-lang)
-  - [Pointers](#pointers)
-  - [Arrays in Go Lang](#arrays-in-go-lang)
-  - [Slices in GO Lang](#slices-in-go-lang)
-  - [Conditionals](#conditionals)
-    - [THE INITIAL STATEMENT OF AN IF BLOCK](#the-initial-statement-of-an-if-block)
-  - [Functions](#functions)
+	- [Types in Go Lang](#types-in-go-lang)
+	- [Constants in Go](#constants-in-go)
+	- [User Input in Go Lang](#user-input-in-go-lang)
+	- [Conversions in GO Lang](#conversions-in-go-lang)
+	- [FORMATTING STRINGS IN GO](#formatting-strings-in-go)
+	- [Story of Time in GO Lang](#story-of-time-in-go-lang)
+	- [Building for Windows, Linux, Mac](#building-for-windows-linux-mac)
+	- [Memory Management in GO Lang](#memory-management-in-go-lang)
+	- [Pointers](#pointers)
+	- [Arrays in Go Lang](#arrays-in-go-lang)
+	- [Slices in GO Lang](#slices-in-go-lang)
+	- [Maps in Go Lang](#maps-in-go-lang)
+	- [Structs in GO Lang](#structs-in-go-lang)
+	- [Conditionals](#conditionals)
+		- [THE INITIAL STATEMENT OF AN IF BLOCK](#the-initial-statement-of-an-if-block)
+	- [For loop](#for-loop)
+	- [Functions](#functions)
+	- [Methods](#methods)
+	- [Defer in GoLang](#defer-in-golang)
+	- [Working with files in GO Lang](#working-with-files-in-go-lang)
+	- [Handling Web Request in Go Lang](#handling-web-request-in-go-lang)
 
 
 # Go Comparision with other Programming languages
@@ -26,7 +33,7 @@
 Execution & Compilation speeds comparision
 
 Execution speeds : 
-faster taht JS, py, ruby, php
+faster than JS, py, ruby, php
 
 Compilation speeds : faster compile times than rust, c, c++, java, c# 
 
@@ -517,6 +524,83 @@ fmt.Println(technologies) // [reactjs nestjs gokit flask]
 ```
 
 
+## Maps in Go Lang
+
+```go
+languages := make(map[string]string)
+languages["js"] = "JavaScript"
+languages["py"] = "Python"
+languages["java"] = "Java"
+languages["rb"] = "Ruby"
+
+fmt.Println(languages)  // map[java:Java js:JavaScript py:Python rb:Ruby]
+
+//accessing single value from  a key
+fmt.Println(languages["py"])  // Python
+
+// deleting a key value pair
+delete(languages, "py")
+fmt.Println(languages) // map[java:Java js:JavaScript rb:Ruby]
+```
+
+**Looping in maps**
+```go
+for key, value := range languages {
+	fmt.Printf("key == '%v' : val == '%v'\n", key, value)
+}
+/*
+key == 'js' : val == 'JavaScript'
+key == 'java' : val == 'Java'
+key == 'rb' : val == 'Ruby'
+*/
+
+
+// we can also use `_` if we want to ignore any of key or value, like : 
+for _, value := range languages {
+	fmt.Printf("val == '%v'\n", value)
+}
+/*
+val == 'JavaScript'
+val == 'Java'
+val == 'Ruby'
+*/
+```
+
+## Structs in GO Lang
+
+Structs are alternative version of Class for go lang
+
+There is no Inheritance in Go Lang; No Super or parent in GO Lang
+
+Do note that first letter Caps means that is being exported in struct & the vars inside struct
+
+```go
+func main() {
+	adarsh := User{"Adarsh", "adarsh@go.dev", true, 24}
+	
+   fmt.Println(adarsh)
+   // {Adarsh adarsh@go.dev true 24}
+	
+   fmt.Printf("inside quotes %+v\n", adarsh)
+   // inside quotes {Name:Adarsh Email:adarsh@go.dev Status:true Age:24}
+}
+
+
+type User struct {
+	Name   string
+	Email  string
+	Status bool
+	Age    int
+}
+
+type NewUser struct {
+	Name   string
+	Email  string
+	Status bool
+	Age    int
+   abc    int //  note that abc is not exportable since 'a' is small
+}
+```
 
 ## Conditionals
 [ToC](#table-of-contents)
@@ -530,8 +614,17 @@ if height > 6 {
 } else {
    fmt.Println("You are not tall enough!")
 }
-```
 
+loginCount := 24
+if loginCount < 24{
+// In go lang we cannot keep the braces below the if statement or function declaration statement because the lexer kicks in and it wont put ; after `{` or after `}`
+   fmt.Printf("good user %v", loginCount)
+}else if loginCount == 24 {
+   fmt.Println("avg user", loginCount)
+}else{
+   fmt.Println("bad user", loginCount)
+}
+```
 ### THE INITIAL STATEMENT OF AN IF BLOCK
 [ToC](#table-of-contents)
 
@@ -546,8 +639,43 @@ if length := getLength(email); length < 1 {
 // it will make sure that the scope of lenght variable is limited only to the if block.
 ```
 
-## Functions
+## For loop
 [ToC](#table-of-contents)
+
+> There is only for loop in GO lang
+
+```go
+days := []string{time.Monday.String(), time.Tuesday.String(), time.Wednesday.String(), time.Thursday.String(), time.Friday.String(), time.Saturday.String()}
+fmt.Println(days)
+for i := 0; i < len(days); i++ {
+	fmt.Println(days[i])
+}
+
+for i := range days {
+	// i returns index and not the actual slice element
+	fmt.Println(days[i])
+}
+
+for i, day := range days {
+	fmt.Printf("i is %v, day is %v\n", i, day)
+}
+for _, day := range days {
+	// to not use i use `_`
+	fmt.Printf(" day is %v\n", day)
+}
+
+
+// while loop similar syntax of for
+rougueValue := 1
+for rougueValue < 10 {
+	fmt.Println("rougueVal : ", rougueValue)
+	rougueValue++
+}
+```
+
+
+
+## Functions 
 
 ![functions](./excalidraw/function.excalidraw.png)
 
@@ -559,5 +687,89 @@ func concat(s1, s2 string) string {
 }
 
 // when multiple arguments are of same type the type only needs to be declared on the last one assuming they are in order.
+
+func main() {
+	fmt.Println("functions")
+	fmt.Println(proAdder(1, 2, 3, 4, 5)) // 15
+
+   fmt.Println(twoReturner(2))
+}
+
+func proAdder(values ...int) int {
+	// values will be accepted as a slice
+	total := 0
+	for _, value := range values {
+		total += value
+	}
+	return total
+}
+
+// returning 2 values from function
+// neew to mention the return type inside ().
+func twoReturner(a int) (int, string) {
+	return a, "funny func"
+}
+```
+> We Cannot write function inside a function
+
+
+## Methods
+[ToC](#table-of-contents)
+
+In general the nomenclature of `method` is used when a function is inside a class.
+> Methods in Go lang are functions with a little syntax difference
+> They are part of a struct.
+> We can pass the entire struct or a property into it.
+> Keep the first letter caps to make it exportable.
+
+Note that struct also creates and Object
+
+```go
+func main() {
+	fmt.Println("Structs in GO Lang") // Structs in GO Lang
+	adarsh := User{"Adarsh", "adarsh@go.dev", true, 24}
+	adarsh.GetStatus() // user  :  true
+
+	adarsh.UpdateEmail("test@go.dev") // Updated Email is :  test@go.dev
+
+
+	fmt.Println("original adarsh.Email is : ", adarsh.Email)
+	// original adarsh.Email is :  adarsh@go.dev
+	// note that the original email is not changed
+	// it is because the a copy of the object `u` of struct `User` is passed
+	// we need to pass a pointer to that
+}
+
+type User struct {
+	Name   string
+	Email  string
+	Status bool
+	Age    int
+}
+
+func (u User) GetStatus() {
+	fmt.Println("user  : ", u.Status)
+}
+
+// A copy of the object `u` of struct `User` is passed
+func (u User) UpdateEmail(email string) {
+	u.Email = email
+	fmt.Println("Updated Email is : ", u.Email)
+}
 ```
 
+> Complete the below Later
+## Defer in GoLang
+[ToC](#table-of-contents)
+## Working with files in GO Lang
+[ToC](#table-of-contents)
+
+
+
+## Handling Web Request in Go Lang
+[ToC](#table-of-contents)
+
+> `net/http` package
+
+- When making a Get request using http package we get response of the `type Response struct` 
+- Do take care that ***neither `ReadResponse` nor `Response.Write` ever closes a connection.***
