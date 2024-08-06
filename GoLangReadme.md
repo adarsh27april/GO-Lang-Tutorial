@@ -25,6 +25,8 @@
 	- [Defer in GoLang](#defer-in-golang)
 	- [Working with files in GO Lang](#working-with-files-in-go-lang)
 	- [Handling Web Request in Go Lang](#handling-web-request-in-go-lang)
+		- [`net/http` package](#nethttp-package)
+		- [using the `url` package](#using-the-url-package)
 
 
 # Go Comparision with other Programming languages
@@ -769,7 +771,87 @@ func (u User) UpdateEmail(email string) {
 ## Handling Web Request in Go Lang
 [ToC](#table-of-contents)
 
-> `net/http` package
+
+### `net/http` package
+[ToC](#table-of-contents)
 
 - When making a Get request using http package we get response of the `type Response struct` 
 - Do take care that ***neither `ReadResponse` nor `Response.Write` ever closes a connection.***
+
+```go
+// const url = "https://www.google.com/robots.txt"
+// const url = "https://lco.dev"
+const url = "https://jsonplaceholder.typicode.com/posts"
+
+func main() {
+	fmt.Println("Handling web requests")
+
+	res, err := http.Get(url)
+
+	if err != nil {
+		panic(err)
+	}
+	defer res.Body.Close() // it is caller's responsibility to close the connection
+	// adding defer to this statement ensures that it will be executed at the end of the function, i.e., after everything else has been executed.
+
+	fmt.Printf("Response is of Type : %T\n", res) // Response is of Type : *http.Response
+	// note that it is returning a pointer to the acutal Response and not a copy of it, so it can be manipulated further.
+
+	databytes, err := io.ReadAll(res.Body) // ReadAll reads from r until an error or EOF and returns the data it read
+
+	if err != nil {
+		panic(err)
+	}
+	// fmt.Println("databytes : ", databytes)
+
+	content := string(databytes) // it will give us the entire content, text/html whatever is there
+	fmt.Println("content : ", content)
+}
+```
+
+### using the `url` package
+[ToC](#table-of-contents)
+
+```go
+// const url1 string = "https://jsonplaceholder.typicode.com/todos/1"
+const url1 string = "https://jsonplaceholder.typicode.com/comments?postId=1&userId=234"
+
+func main() {
+	fmt.Println("handling urls in go lang")
+
+	// parsing the url
+	result, _ := url.Parse(url1)
+
+	fmt.Println("scheme : ", result.Scheme)         // https
+	fmt.Println("host : ", result.Host)             // jsonplaceholder.typicode.com
+	fmt.Println("path : ", result.Path)             // /comments
+	fmt.Println("port : ", result.Port())           //
+	fmt.Println("query params : ", result.RawQuery) // postId=1
+
+	// parsing the query params
+	queryParams := result.Query()
+	fmt.Println("queryParams : ", queryParams)             // queryParams :  map[postId:[1]]
+	fmt.Printf("Type of queryParams is %T\n", queryParams) // url.Values
+	// it returns a map
+	fmt.Println(`queryParams["postId"] :`, queryParams["postId"])
+
+	for _, val := range queryParams { // the params in teaversing url.Values is key, value basically an interface
+		fmt.Println("param is : ", val)
+	}
+
+	partsOfUrl := &url.URL{
+		// & denotes that the acutal pointer to the url.URL is being passed so it can acutally be manipulated
+		// URL is a struct
+		Scheme:   "https",
+		Host:     "jsonplaceholder.typicode.com",
+		Path:     "/comments",
+		RawQuery: "postId=1&userId=234",
+	}
+	fmt.Printf("url parts : %T\n", partsOfUrl) // *url.URL
+	anotherUrl := partsOfUrl.String()
+	fmt.Println("another url : ", anotherUrl) // https://jsonplaceholder.typicode.com/comments?postId=1&userId=234
+
+}
+```
+
+d
