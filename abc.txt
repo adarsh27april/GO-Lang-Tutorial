@@ -1,0 +1,13 @@
+handling urls in go lang
+scheme :  https
+host :  jsonplaceholder.typicode.com
+path :  /comments
+port :  
+query params :  postId=1&userId=234
+queryParams :  map[postId:[1] userId:[234]]
+Type of queryParams is url.Values
+queryParams["postId"] : [1]
+param is :  [1]
+param is :  [234]
+url parts : *url.URL
+another url :  https://jsonplaceholder.typicode.com/comments?postId=1&userId=234
