@@ -4,29 +4,29 @@
 - [Go Comparision with other Programming languages](#go-comparision-with-other-programming-languages)
 - [Some Go Basics](#some-go-basics)
 - [Go Lang Basic Syntax](#go-lang-basic-syntax)
-	- [Types in Go Lang](#types-in-go-lang)
-	- [Constants in Go](#constants-in-go)
-	- [User Input in Go Lang](#user-input-in-go-lang)
-	- [Conversions in GO Lang](#conversions-in-go-lang)
-	- [FORMATTING STRINGS IN GO](#formatting-strings-in-go)
-	- [Story of Time in GO Lang](#story-of-time-in-go-lang)
-	- [Building for Windows, Linux, Mac](#building-for-windows-linux-mac)
-	- [Memory Management in GO Lang](#memory-management-in-go-lang)
-	- [Pointers](#pointers)
-	- [Arrays in Go Lang](#arrays-in-go-lang)
-	- [Slices in GO Lang](#slices-in-go-lang)
-	- [Maps in Go Lang](#maps-in-go-lang)
-	- [Structs in GO Lang](#structs-in-go-lang)
-	- [Conditionals](#conditionals)
-		- [THE INITIAL STATEMENT OF AN IF BLOCK](#the-initial-statement-of-an-if-block)
-	- [For loop](#for-loop)
-	- [Functions](#functions)
-	- [Methods](#methods)
-	- [Defer in GoLang](#defer-in-golang)
-	- [Working with files in GO Lang](#working-with-files-in-go-lang)
-	- [Handling Web Request in Go Lang](#handling-web-request-in-go-lang)
-		- [`net/http` package](#nethttp-package)
-		- [using the `url` package](#using-the-url-package)
+   - [Types in Go Lang](#types-in-go-lang)
+   - [Constants in Go](#constants-in-go)
+   - [User Input in Go Lang](#user-input-in-go-lang)
+   - [Conversions in GO Lang](#conversions-in-go-lang)
+   - [FORMATTING STRINGS IN GO](#formatting-strings-in-go)
+   - [Story of Time in GO Lang](#story-of-time-in-go-lang)
+   - [Building for Windows, Linux, Mac](#building-for-windows-linux-mac)
+   - [Memory Management in GO Lang](#memory-management-in-go-lang)
+   - [Pointers](#pointers)
+   - [Arrays in Go Lang](#arrays-in-go-lang)
+   - [Slices in GO Lang](#slices-in-go-lang)
+   - [Maps in Go Lang](#maps-in-go-lang)
+   - [Structs in GO Lang](#structs-in-go-lang)
+   - [Conditionals](#conditionals)
+      - [THE INITIAL STATEMENT OF AN IF BLOCK](#the-initial-statement-of-an-if-block)
+   - [For loop](#for-loop)
+   - [Functions](#functions)
+   - [Methods](#methods)
+   - [Defer in GoLang](#defer-in-golang)
+   - [Working with files in GO Lang](#working-with-files-in-go-lang)
+   - [Handling Web Request in Go Lang](#handling-web-request-in-go-lang)
+      - [`net/http` package](#nethttp-package)
+      - [using the `url` package](#using-the-url-package)
 
 
 # Go Comparision with other Programming languages
@@ -271,9 +271,9 @@ const LoginToken = "hiurhgfuiehrnvi"
 // in other langs we need to write `public` keyword but here only 1st letter in Caps is enough.
 
 func main() {
-	var username string = "adarsh"
-	fmt.Println(username)
-	fmt.Printf("var is of type : %T \n", username)
+   var username string = "adarsh"
+   fmt.Println(username)
+   fmt.Printf("var is of type : %T \n", username)
 
    fmt.Println(LoginToken)
    fmt.Printf("var is of type : %T\n", LoginToken)
@@ -293,18 +293,18 @@ func main() {
 
 ```go
 func main() {
-	reader := bufio.NewReader(os.Stdin)
-	// do note that here `NewReader` has `N` & `Stdin` has `S` hence they are public
-	fmt.Println("Enter rating for our pizza :") // println auto adds a \n at end
+   reader := bufio.NewReader(os.Stdin)
+   // do note that here `NewReader` has `N` & `Stdin` has `S` hence they are public
+   fmt.Println("Enter rating for our pizza :") // println auto adds a \n at end
 
-	// `, ok syntax` || `err ok syntax`
+   // `, ok syntax` || `err ok syntax`
 
-	// The paradigm of the language is that it expects err to be treated like a var/bool
+   // The paradigm of the language is that it expects err to be treated like a var/bool
 
-	input, _ := reader.ReadString('\n') // reads until the first occurrence of delimeter(here `\n`) in the input.
-	fmt.Println("Thanks for rating", input)
-	fmt.Printf("Type of rating is %T", input)
-	// note that err is not used here so we can use `_` as a var name here and it will not show `Declared but not user` error
+   input, _ := reader.ReadString('\n') // reads until the first occurrence of delimeter(here `\n`) in the input.
+   fmt.Println("Thanks for rating", input)
+   fmt.Printf("Type of rating is %T", input)
+   // note that err is not used here so we can use `_` as a var name here and it will not show `Declared but not user` error
 }
 ```
 
@@ -314,14 +314,14 @@ func main() {
 ```go
 // inside main()
    reader := bufio.NewReader(os.Stdin)
-	ip, _ := reader.ReadString('\n')
-	fmt.Println("Thanks for your rating : ", ip)
-	numRating, err := strconv.ParseFloat(ip, 64)
+   ip, _ := reader.ReadString('\n')
+   fmt.Println("Thanks for your rating : ", ip)
+   numRating, err := strconv.ParseFloat(ip, 64)
    if err != nil {
-		fmt.Println("some error ->", err)
-	} else {
-		fmt.Printf("var type is %T", numRating)
-	}
+      fmt.Println("some error ->", err)
+   } else {
+      fmt.Printf("var type is %T", numRating)
+   }
 /*
 It will return an error at this point like : 
 some error -> strconv.ParseFloat: parsing "3.5\r\n": invalid syntax
@@ -332,16 +332,16 @@ By using `strings.TrimSpace()` package to return Slices of string after removing
 
 ```go
    fmt.Println("Please rate our pizza b/w 1 & 5")
-	reader := bufio.NewReader(os.Stdin)
-	ip, _ := reader.ReadString('\n')
-	fmt.Println("Thanks for your rating : ", ip)
-	// converting rating to number
-	numRating, err := strconv.ParseFloat(strings.TrimSpace(ip), 64)
-	if err != nil {
-		fmt.Println("some error ->", err)
-	} else {
-		fmt.Printf("var type is %T", numRating)
-	}
+   reader := bufio.NewReader(os.Stdin)
+   ip, _ := reader.ReadString('\n')
+   fmt.Println("Thanks for your rating : ", ip)
+   // converting rating to number
+   numRating, err := strconv.ParseFloat(strings.TrimSpace(ip), 64)
+   if err != nil {
+      fmt.Println("some error ->", err)
+   } else {
+      fmt.Printf("var type is %T", numRating)
+   }
 ```
 
 ## FORMATTING STRINGS IN GO
@@ -548,7 +548,7 @@ fmt.Println(languages) // map[java:Java js:JavaScript rb:Ruby]
 **Looping in maps**
 ```go
 for key, value := range languages {
-	fmt.Printf("key == '%v' : val == '%v'\n", key, value)
+   fmt.Printf("key == '%v' : val == '%v'\n", key, value)
 }
 /*
 key == 'js' : val == 'JavaScript'
@@ -559,7 +559,7 @@ key == 'rb' : val == 'Ruby'
 
 // we can also use `_` if we want to ignore any of key or value, like : 
 for _, value := range languages {
-	fmt.Printf("val == '%v'\n", value)
+   fmt.Printf("val == '%v'\n", value)
 }
 /*
 val == 'JavaScript'
@@ -578,28 +578,28 @@ Do note that first letter Caps means that is being exported in struct & the vars
 
 ```go
 func main() {
-	adarsh := User{"Adarsh", "adarsh@go.dev", true, 24}
-	
+   adarsh := User{"Adarsh", "adarsh@go.dev", true, 24}
+   
    fmt.Println(adarsh)
    // {Adarsh adarsh@go.dev true 24}
-	
+   
    fmt.Printf("inside quotes %+v\n", adarsh)
    // inside quotes {Name:Adarsh Email:adarsh@go.dev Status:true Age:24}
 }
 
 
 type User struct {
-	Name   string
-	Email  string
-	Status bool
-	Age    int
+   Name   string
+   Email  string
+   Status bool
+   Age    int
 }
 
 type NewUser struct {
-	Name   string
-	Email  string
-	Status bool
-	Age    int
+   Name   string
+   Email  string
+   Status bool
+   Age    int
    abc    int //  note that abc is not exportable since 'a' is small
 }
 ```
@@ -650,28 +650,28 @@ if length := getLength(email); length < 1 {
 days := []string{time.Monday.String(), time.Tuesday.String(), time.Wednesday.String(), time.Thursday.String(), time.Friday.String(), time.Saturday.String()}
 fmt.Println(days)
 for i := 0; i < len(days); i++ {
-	fmt.Println(days[i])
+   fmt.Println(days[i])
 }
 
 for i := range days {
-	// i returns index and not the actual slice element
-	fmt.Println(days[i])
+   // i returns index and not the actual slice element
+   fmt.Println(days[i])
 }
 
 for i, day := range days {
-	fmt.Printf("i is %v, day is %v\n", i, day)
+   fmt.Printf("i is %v, day is %v\n", i, day)
 }
 for _, day := range days {
-	// to not use i use `_`
-	fmt.Printf(" day is %v\n", day)
+   // to not use i use `_`
+   fmt.Printf(" day is %v\n", day)
 }
 
 
 // while loop similar syntax of for
 rougueValue := 1
 for rougueValue < 10 {
-	fmt.Println("rougueVal : ", rougueValue)
-	rougueValue++
+   fmt.Println("rougueVal : ", rougueValue)
+   rougueValue++
 }
 ```
 
@@ -685,31 +685,31 @@ Or we can also do like
 
 ```go
 func concat(s1, s2 string) string {
-	return s1 + s2
+   return s1 + s2
 }
 
 // when multiple arguments are of same type the type only needs to be declared on the last one assuming they are in order.
 
 func main() {
-	fmt.Println("functions")
-	fmt.Println(proAdder(1, 2, 3, 4, 5)) // 15
+   fmt.Println("functions")
+   fmt.Println(proAdder(1, 2, 3, 4, 5)) // 15
 
    fmt.Println(twoReturner(2))
 }
 
 func proAdder(values ...int) int {
-	// values will be accepted as a slice
-	total := 0
-	for _, value := range values {
-		total += value
-	}
-	return total
+   // values will be accepted as a slice
+   total := 0
+   for _, value := range values {
+      total += value
+   }
+   return total
 }
 
 // returning 2 values from function
 // neew to mention the return type inside ().
 func twoReturner(a int) (int, string) {
-	return a, "funny func"
+   return a, "funny func"
 }
 ```
 > We Cannot write function inside a function
@@ -728,35 +728,35 @@ Note that struct also creates and Object
 
 ```go
 func main() {
-	fmt.Println("Structs in GO Lang") // Structs in GO Lang
-	adarsh := User{"Adarsh", "adarsh@go.dev", true, 24}
-	adarsh.GetStatus() // user  :  true
+   fmt.Println("Structs in GO Lang") // Structs in GO Lang
+   adarsh := User{"Adarsh", "adarsh@go.dev", true, 24}
+   adarsh.GetStatus() // user  :  true
 
-	adarsh.UpdateEmail("test@go.dev") // Updated Email is :  test@go.dev
+   adarsh.UpdateEmail("test@go.dev") // Updated Email is :  test@go.dev
 
 
-	fmt.Println("original adarsh.Email is : ", adarsh.Email)
-	// original adarsh.Email is :  adarsh@go.dev
-	// note that the original email is not changed
-	// it is because the a copy of the object `u` of struct `User` is passed
-	// we need to pass a pointer to that
+   fmt.Println("original adarsh.Email is : ", adarsh.Email)
+   // original adarsh.Email is :  adarsh@go.dev
+   // note that the original email is not changed
+   // it is because the a copy of the object `u` of struct `User` is passed
+   // we need to pass a pointer to that
 }
 
 type User struct {
-	Name   string
-	Email  string
-	Status bool
-	Age    int
+   Name   string
+   Email  string
+   Status bool
+   Age    int
 }
 
 func (u User) GetStatus() {
-	fmt.Println("user  : ", u.Status)
+   fmt.Println("user  : ", u.Status)
 }
 
 // A copy of the object `u` of struct `User` is passed
 func (u User) UpdateEmail(email string) {
-	u.Email = email
-	fmt.Println("Updated Email is : ", u.Email)
+   u.Email = email
+   fmt.Println("Updated Email is : ", u.Email)
 }
 ```
 
@@ -784,28 +784,28 @@ func (u User) UpdateEmail(email string) {
 const url = "https://jsonplaceholder.typicode.com/posts"
 
 func main() {
-	fmt.Println("Handling web requests")
+   fmt.Println("Handling web requests")
 
-	res, err := http.Get(url)
+   res, err := http.Get(url)
 
-	if err != nil {
-		panic(err)
-	}
-	defer res.Body.Close() // it is caller's responsibility to close the connection
-	// adding defer to this statement ensures that it will be executed at the end of the function, i.e., after everything else has been executed.
+   if err != nil {
+      panic(err)
+   }
+   defer res.Body.Close() // it is caller's responsibility to close the connection
+   // adding defer to this statement ensures that it will be executed at the end of the function, i.e., after everything else has been executed.
 
-	fmt.Printf("Response is of Type : %T\n", res) // Response is of Type : *http.Response
-	// note that it is returning a pointer to the acutal Response and not a copy of it, so it can be manipulated further.
+   fmt.Printf("Response is of Type : %T\n", res) // Response is of Type : *http.Response
+   // note that it is returning a pointer to the acutal Response and not a copy of it, so it can be manipulated further.
 
-	databytes, err := io.ReadAll(res.Body) // ReadAll reads from r until an error or EOF and returns the data it read
+   databytes, err := io.ReadAll(res.Body) // ReadAll reads from r until an error or EOF and returns the data it read
 
-	if err != nil {
-		panic(err)
-	}
-	// fmt.Println("databytes : ", databytes)
+   if err != nil {
+      panic(err)
+   }
+   // fmt.Println("databytes : ", databytes)
 
-	content := string(databytes) // it will give us the entire content, text/html whatever is there
-	fmt.Println("content : ", content)
+   content := string(databytes) // it will give us the entire content, text/html whatever is there
+   fmt.Println("content : ", content)
 }
 ```
 
@@ -817,39 +817,39 @@ func main() {
 const url1 string = "https://jsonplaceholder.typicode.com/comments?postId=1&userId=234"
 
 func main() {
-	fmt.Println("handling urls in go lang")
+   fmt.Println("handling urls in go lang")
 
-	// parsing the url
-	result, _ := url.Parse(url1)
+   // parsing the url
+   result, _ := url.Parse(url1)
 
-	fmt.Println("scheme : ", result.Scheme)         // https
-	fmt.Println("host : ", result.Host)             // jsonplaceholder.typicode.com
-	fmt.Println("path : ", result.Path)             // /comments
-	fmt.Println("port : ", result.Port())           //
-	fmt.Println("query params : ", result.RawQuery) // postId=1
+   fmt.Println("scheme : ", result.Scheme)         // https
+   fmt.Println("host : ", result.Host)             // jsonplaceholder.typicode.com
+   fmt.Println("path : ", result.Path)             // /comments
+   fmt.Println("port : ", result.Port())           //
+   fmt.Println("query params : ", result.RawQuery) // postId=1
 
-	// parsing the query params
-	queryParams := result.Query()
-	fmt.Println("queryParams : ", queryParams)             // queryParams :  map[postId:[1]]
-	fmt.Printf("Type of queryParams is %T\n", queryParams) // url.Values
-	// it returns a map
-	fmt.Println(`queryParams["postId"] :`, queryParams["postId"])
+   // parsing the query params
+   queryParams := result.Query()
+   fmt.Println("queryParams : ", queryParams)             // queryParams :  map[postId:[1]]
+   fmt.Printf("Type of queryParams is %T\n", queryParams) // url.Values
+   // it returns a map
+   fmt.Println(`queryParams["postId"] :`, queryParams["postId"])
 
-	for _, val := range queryParams { // the params in teaversing url.Values is key, value basically an interface
-		fmt.Println("param is : ", val)
-	}
+   for _, val := range queryParams { // the params in teaversing url.Values is key, value basically an interface
+      fmt.Println("param is : ", val)
+   }
 
-	partsOfUrl := &url.URL{
-		// & denotes that the acutal pointer to the url.URL is being passed so it can acutally be manipulated
-		// URL is a struct
-		Scheme:   "https",
-		Host:     "jsonplaceholder.typicode.com",
-		Path:     "/comments",
-		RawQuery: "postId=1&userId=234",
-	}
-	fmt.Printf("url parts : %T\n", partsOfUrl) // *url.URL
-	anotherUrl := partsOfUrl.String()
-	fmt.Println("another url : ", anotherUrl) // https://jsonplaceholder.typicode.com/comments?postId=1&userId=234
+   partsOfUrl := &url.URL{
+      // & denotes that the acutal pointer to the url.URL is being passed so it can acutally be manipulated
+      // URL is a struct
+      Scheme:   "https",
+      Host:     "jsonplaceholder.typicode.com",
+      Path:     "/comments",
+      RawQuery: "postId=1&userId=234",
+   }
+   fmt.Printf("url parts : %T\n", partsOfUrl) // *url.URL
+   anotherUrl := partsOfUrl.String()
+   fmt.Println("another url : ", anotherUrl) // https://jsonplaceholder.typicode.com/comments?postId=1&userId=234
 
 }
 ```

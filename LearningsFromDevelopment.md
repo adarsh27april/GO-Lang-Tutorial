@@ -3,19 +3,19 @@
 ```go
 // CASE 1 : 
 type IdName struct {
-	Id   *int    `json:"id,omitempty"` // if id,name = nil it will skip it from json
-	Name *string `json:"name,omitempty"`
+   Id   *int    `json:"id,omitempty"` // if id,name = nil it will skip it from json
+   Name *string `json:"name,omitempty"`
 }
 
 
 // CASE 2 : 
 type IdName struct {
-	Id   *int    `json:"id,omitempty"` // if id,name = nil it will skip it from json
-	Name *string `json:"name,omitempty"`
+   Id   *int    `json:"id,omitempty"` // if id,name = nil it will skip it from json
+   Name *string `json:"name,omitempty"`
 }
 
 type GetDealGeneralData struct {
-	Licensee IdName `json:"licensee" validate:"omitempty"`
+   Licensee IdName `json:"licensee" validate:"omitempty"`
 }
 ```
 
