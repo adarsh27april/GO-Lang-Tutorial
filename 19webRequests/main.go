@@ -4,18 +4,25 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 	"strings"
 )
 
-// const url = "https://www.google.com/robots.txt"
-// const url = "https://lco.dev"
-// const url = "https://jsonplaceholder.typicode.com/posts"
-const url = "http://localhost:8000"
+// const urlSite = "https://www.google.com/robots.txt"
+// const urlSite = "https://lco.dev"
+// const urlSite = "https://jsonplaceholder.typicode.com/posts"
+const urlSite = "http://localhost:8000"
 
 func main() {
 	fmt.Println("Handling web requests")
 
-	res, err := http.Get(url)
+	// getRequest()
+	// performPostJsonReq()
+	PerformPostFormReq()
+}
+
+func getRequest() {
+	res, err := http.Get(urlSite)
 
 	if err != nil {
 		panic(err)
@@ -41,4 +48,58 @@ func main() {
 	byteCount, _ := resStringBuilder.Write(databytes)
 	fmt.Println("byteCount : ", byteCount)
 	fmt.Println("resStringBuilder content : ", resStringBuilder.String())
+}
+
+func performPostJsonReq() {
+	urlParsed, err := url.Parse(urlSite)
+	if err != nil {
+		panic(err)
+	}
+	urlParsed.Path = "/post"
+	reqBody := strings.NewReader(`
+		{
+			"language":"golang",
+			"platform":"wsl"
+		}
+	`)
+
+	res, err := http.Post(urlParsed.String(), "application/json", reqBody)
+	if err != nil {
+		panic(err)
+	}
+	defer res.Body.Close()
+
+	content, err := io.ReadAll(res.Body)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("content : ", string(content))
+}
+
+func PerformPostFormReq() {
+	api, err := url.Parse(urlSite)
+	if err != nil {
+		panic(err)
+	}
+	api.Path = "/postform"
+
+	formData := url.Values{}
+	formData.Add("firstName", "Adarsh")
+	formData.Add("lastName", "Singh")
+
+	fmt.Printf("data - type: %T,\nvalues : \n%+v\n", formData, formData)
+
+	res, err := http.PostForm(api.String(), formData)
+	if err != nil {
+		panic(err)
+	}
+	defer res.Body.Close()
+
+	content, err := io.ReadAll(res.Body)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println("content : ", string(content))
+
 }
