@@ -16,8 +16,8 @@ const urlSite = "http://localhost:8000"
 func main() {
 	fmt.Println("Handling web requests")
 
-	// getRequest()
-	// performPostJsonReq()
+	getRequest()
+	performPostJsonReq()
 	PerformPostFormReq()
 }
 
@@ -77,6 +77,8 @@ func performPostJsonReq() {
 }
 
 func PerformPostFormReq() {
+
+	// POST API for form data in postman is from
 	api, err := url.Parse(urlSite)
 	if err != nil {
 		panic(err)

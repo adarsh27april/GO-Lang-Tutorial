@@ -4,50 +4,51 @@
 - [Go Comparision with other Programming languages](#go-comparision-with-other-programming-languages)
 - [Some Go Basics](#some-go-basics)
 - [Go Lang Basic Syntax](#go-lang-basic-syntax)
-   - [Types in Go Lang](#types-in-go-lang)
-   - [Constants in Go](#constants-in-go)
-   - [User Input in Go Lang](#user-input-in-go-lang)
-   - [Conversions in GO Lang](#conversions-in-go-lang)
-   - [FORMATTING STRINGS IN GO](#formatting-strings-in-go)
-   - [Story of Time in GO Lang](#story-of-time-in-go-lang)
-   - [Building for Windows, Linux, Mac](#building-for-windows-linux-mac)
-   - [Memory Management in GO Lang](#memory-management-in-go-lang)
-   - [Pointers](#pointers)
-   - [Arrays in Go Lang](#arrays-in-go-lang)
-   - [Slices in GO Lang](#slices-in-go-lang)
-   - [Maps in Go Lang](#maps-in-go-lang)
-   - [Structs in GO Lang](#structs-in-go-lang)
-   - [Conditionals](#conditionals)
-      - [THE INITIAL STATEMENT OF AN IF BLOCK](#the-initial-statement-of-an-if-block)
-   - [For loop](#for-loop)
-   - [Functions](#functions)
-   - [Methods](#methods)
-   - [Defer in GoLang](#defer-in-golang)
-   - [Working with files in GO Lang](#working-with-files-in-go-lang)
-   - [Handling Web Request in Go Lang](#handling-web-request-in-go-lang)
-      - [`net/http` package](#nethttp-package)
-      - [using the `url` package](#using-the-url-package)
-
+  - [Types in Go Lang](#types-in-go-lang)
+  - [Constants in Go](#constants-in-go)
+  - [User Input in Go Lang](#user-input-in-go-lang)
+  - [Conversions in GO Lang](#conversions-in-go-lang)
+  - [FORMATTING STRINGS IN GO](#formatting-strings-in-go)
+  - [Story of Time in GO Lang](#story-of-time-in-go-lang)
+  - [Building for Windows, Linux, Mac](#building-for-windows-linux-mac)
+  - [Memory Management in GO Lang](#memory-management-in-go-lang)
+  - [Pointers](#pointers)
+  - [Arrays in Go Lang](#arrays-in-go-lang)
+  - [Slices in GO Lang](#slices-in-go-lang)
+  - [Maps in Go Lang](#maps-in-go-lang)
+  - [Structs in GO Lang](#structs-in-go-lang)
+  - [Conditionals](#conditionals)
+    - [THE INITIAL STATEMENT OF AN IF BLOCK](#the-initial-statement-of-an-if-block)
+  - [For loop](#for-loop)
+  - [Functions](#functions)
+  - [Methods](#methods)
+  - [Defer in GoLang](#defer-in-golang)
+  - [Working with files in GO Lang](#working-with-files-in-go-lang)
+  - [Handling Web Request in Go Lang](#handling-web-request-in-go-lang)
+    - [`net/http` package](#nethttp-package)
+    - [using the `url` package](#using-the-url-package)
+    - [Go Mod](#go-mod)
+      - [building a basic server in Go](#building-a-basic-server-in-go)
+- [Building APIs in golang](#building-apis-in-golang)
 
 # Go Comparision with other Programming languages
+
 [ToC](#table-of-contents)
 
 Execution & Compilation speeds comparision
 
-Execution speeds : 
+Execution speeds :
 faster than JS, py, ruby, php
 
-Compilation speeds : faster compile times than rust, c, c++, java, c# 
+Compilation speeds : faster compile times than rust, c, c++, java, c#
 
 GO is fasrter that java, but slow than c,c++,rust.
 
-
-
 Compairing GO with natively compiled Langs(ex : C, C++, Rust) Vs compiled Langs which run on top of a VM(ex : Java, C#).
 
-> GO is natively compiled on the system but it's execution speed is slower than others like Rust, c, c++, but is similar to other compiled langs which run on VM. <br/>
+> GO is natively compiled on the system but it's execution speed is slower than others like Rust, c, c++, but is similar to other compiled langs which run on VM. <br>
 > Reason : GO Runtime(a chunk of code that's included in every go code that manages memory which tends to slow down the execution speed, but it tends to use less memory than langs compiled & executed on vm).
-> 
+>
 > Go does not have operator, method overloading, do not have class & object but have structs
 
 Textio Server.
@@ -63,15 +64,14 @@ It has auto garbage collector.
 Every time we run a java prog we create a mini JVM within which our java byte code runs. the JVM takes care of all the memory management like allocating & de-allocating all the memory that we use.
 
 Go is in between C & Java in terms of memory management.
+
 - It has a automated garbage collector
 - It does not have a VM like JVM where we run our bytecode but like rust & c we get a single binary.
 - Go includes a `Go Runtime` withing any binary that is built using go prog lang.
 - This extra code for `Go Runtime` handles garbage collection and automated memory management.
 - Go has more .exe file size than Rust or C but has much less memory overhead(VM) than Java or C# while providing the garbage collector
 
-
 ![abc](./excalidraw/2nd.excalidraw.png)
-
 
 Memory Efficiency order
 
@@ -80,6 +80,7 @@ Rust > GO >>> Java
 Go Runtime cleans up unused memory.
 
 # Some Go Basics
+
 [ToC](#table-of-contents)
 
 ```go
@@ -95,12 +96,13 @@ module hello
 
 go 1.22.4
 ```
+
 this says that module name is `hello` and go version is `1.22.4`
 
 go is similar to c & c++ in sense that it has an single entry point `main()` function where `main` is a reserved keyword.
 
 GOPATH is the location where go is installed we can check it via `go env GOPATH`
-on navigatig to there, say: 
+on navigatig to there, say:
 
 ```go
 -go
@@ -117,15 +119,14 @@ The formal grammar of go lang has semi-colon `;` at end of every line like it is
 
 The lexer automatically puts a `;` at the end of a line so we do need to put it there and even though we put it then also vscode intellisense removes that semi-colon at end of line, the semi-colon is put by Lexer at time of Lexical Analysis.
 
-
-
 # Go Lang Basic Syntax
+
 [ToC](#table-of-contents)
 
 `func main()` is entry point of eveyr go program
 
-
 ## Types in Go Lang
+
 [ToC](#table-of-contents)
 
 types are case sensitive and it also help to define that if a var/func is going to be `Public` or `private`
@@ -135,8 +136,6 @@ ex : `Println` here its `P` hence it is exported as a Public method.
 variable type should be known in advance
 
 > <u>***In Go almost everything is a `Type` , just like everything in JS is an Object***</u>
-
-
 
 ```go
 bool
@@ -167,7 +166,6 @@ Functions // they are also `Type` so that they can be passed in a func & returne
 Channels, Mutex
 ```
 
-
 The value of a declared variable with no assignment will be its zero value.
 
 The zero value is:
@@ -176,7 +174,6 @@ The zero value is:
 - `false` for the `boolean` type, and
 - `""` (the empty string) for `strings`.
 
-
 declaring the variables
 
 ```go
@@ -184,15 +181,18 @@ var varName int
 // this will be set to zero value 0
 ```
 
-Implicit Type declaration : 
+Implicit Type declaration :
+
 ```go
 var website = "go.dev"
 
 var a = false // lexer will boolean 
 ```
+
 Here the lexer kicks in and decides the type of the variable based on the literal that is provided to it for the very first time. But the type will remain fixed for the entire program and assigning other type value will give error.
 
 No Var Style
+
 ```go
 varName := 0
 
@@ -214,8 +214,8 @@ mileage, company := 80276, "Tesla"
 mileage := 80276
 company := "Tesla"
 ```
-The `:=` operator is only allowed inside a method, it is not allowed for global variable, for that we need to use `var` style.
 
+The `:=` operator is only allowed inside a method, it is not allowed for global variable, for that we need to use `var` style.
 
 ```go
 temperatureFloat := 88.26
@@ -236,17 +236,18 @@ complex128
 ```
 
 ## Constants in Go
+
 [ToC](#table-of-contents)
 
 > Constants are declared with the const keyword. They can't use the := short declaration syntax.
 `const pi = 3.14159`
-> 
+>
 > `Constants` can be `character`, `string`, `boolean`, or `numeric` values. They can not be more complex types like `slices`, `maps` and `structs`.
-> 
-> Constants ***must be known at compile time*** <br>
+>
+> Constants ***must be known at compile time*** \
 > However, constants can be computed as long as the computation can happen at compile time.
 > We cannot declare a constant that can only be computed at run-time like we can in JavaScript
-> 
+>
 > ```go
 > const myInt = 15
 > const firstName = "Lane"
@@ -257,8 +258,7 @@ complex128
 > const currentTime = time.Now()
 > ```
 
-
-if we write like 
+if we write like
 
 ```go
 package main
@@ -287,6 +287,7 @@ func main() {
 ```
 
 ## User Input in Go Lang
+
 [ToC](#table-of-contents)
 
 `bufio` and `os` package
@@ -309,6 +310,7 @@ func main() {
 ```
 
 ## Conversions in GO Lang
+
 [ToC](#table-of-contents)
 
 ```go
@@ -327,6 +329,7 @@ It will return an error at this point like :
 some error -> strconv.ParseFloat: parsing "3.5\r\n": invalid syntax
 */
 ```
+
 Note that here we are having extra `\r\n` at the end of string, & to solve this we have to trim it.
 By using `strings.TrimSpace()` package to return Slices of string after removing leading & trailing whitespaces.
 
@@ -345,6 +348,7 @@ By using `strings.TrimSpace()` package to return Slices of string after removing
 ```
 
 ## FORMATTING STRINGS IN GO
+
 [ToC](#table-of-contents)
 
 - `fmt.Printf` - Prints a formatted string to standard out.
@@ -365,6 +369,7 @@ var msg = fmt.Sprintf("Hi %s, your open rate is %.1f percent\n",name,openRate)
 ```
 
 ## Story of Time in GO Lang
+
 [ToC](#table-of-contents)
 
 ```go
@@ -379,7 +384,9 @@ fmt.Printf("presentTime type is %T\n", presentTime)// presentTime type is time.T
 formattedPresentTime := presentTime.Format("02-01-2006 Monday  15:04:05")
 fmt.Printf("formattedPresentTime type is %T\n", formattedPresentTime) //formattedPresentTime type is string
 ```
+
 Creating time in Go
+
 ```go
 createdTime := time.Date(2024, time.October, 19, 2, 45, 20, 0, time.UTC)
 fmt.Printf("createdTime type is %T", createdTime)
@@ -390,14 +397,15 @@ fmt.Println(createdTime)
 - `time.Now().UnixNano()` : UnixNano returns t as a Unix time, the number of nanoseconds elapsed since January 1, 1970 UTC.
 
 ## Building for Windows, Linux, Mac
+
 [ToC](#table-of-contents)
 
 - `go env` shows up all the system env variables
 - `GOOS` env var is for building the executable for different os.
 - `GOOS="linux" go build`
 
-
 ## Memory Management in GO Lang
+
 [ToC](#table-of-contents)
 
 Memory allocation & deallocation happens automatically in Go Lang.
@@ -415,10 +423,11 @@ Memory allocation & deallocation happens automatically in Go Lang.
 - Out of scope & nil values are eligible for Garbage Collection
 
 > The `GOGC` variable sets the initial garbage collection target percentage. A collection is triggered when the ratio of freshly allocated data to live data remaining after the previous collection reaches this percentage. The default is `GOGC=100`. Setting `GOGC=off` disables the garbage collector entirely
-
+>
 > There is `NumCPU` in `runtime` package that returns the number of logical CPUs usable by the current process.
 
 ## Pointers
+
 [ToC](#table-of-contents)
 
 On passing some vars &/or values the actual value is not being passed instead a copy of that var/value is passed. so inorder to avoid thisn & pass address of actual value the address is passed as pointer
@@ -443,9 +452,10 @@ fmt.Println("new value of num is  : ", num) // 72
 ```
 
 ## Arrays in Go Lang
+
 [ToC](#table-of-contents)
 
-In Go Lang we need to explicitly define the size of the array 
+In Go Lang we need to explicitly define the size of the array
 
 ```go
 var fruitList [5]string  // Go Lang
@@ -470,6 +480,7 @@ fmt.Printf("%T\n", vegList) // [3]string
 ```
 
 ## Slices in GO Lang
+
 [ToC](#table-of-contents)
 
 If we define the size inside [] then it is an array but if we do not mention the size then it is a `slice`.
@@ -525,7 +536,6 @@ technologies = append(technologies[:indexToRemove], technologies[indexToRemove+1
 fmt.Println(technologies) // [reactjs nestjs gokit flask]
 ```
 
-
 ## Maps in Go Lang
 
 ```go
@@ -545,7 +555,8 @@ delete(languages, "py")
 fmt.Println(languages) // map[java:Java js:JavaScript rb:Ruby]
 ```
 
-**Looping in maps**
+> Looping in maps
+
 ```go
 for key, value := range languages {
    fmt.Printf("key == '%v' : val == '%v'\n", key, value)
@@ -605,9 +616,11 @@ type NewUser struct {
 ```
 
 ## Conditionals
+
 [ToC](#table-of-contents)
 
 Here we do not surround the condition with curly braces
+
 ```go
 if height > 6 {
    fmt.Println("You are super tall!")
@@ -627,7 +640,9 @@ if loginCount < 24{
    fmt.Println("bad user", loginCount)
 }
 ```
+
 ### THE INITIAL STATEMENT OF AN IF BLOCK
+
 [ToC](#table-of-contents)
 
 ```go
@@ -642,6 +657,7 @@ if length := getLength(email); length < 1 {
 ```
 
 ## For loop
+
 [ToC](#table-of-contents)
 
 > There is only for loop in GO lang
@@ -675,9 +691,7 @@ for rougueValue < 10 {
 }
 ```
 
-
-
-## Functions 
+## Functions
 
 ![functions](./excalidraw/function.excalidraw.png)
 
@@ -712,10 +726,11 @@ func twoReturner(a int) (int, string) {
    return a, "funny func"
 }
 ```
+
 > We Cannot write function inside a function
 
-
 ## Methods
+
 [ToC](#table-of-contents)
 
 In general the nomenclature of `method` is used when a function is inside a class.
@@ -761,21 +776,24 @@ func (u User) UpdateEmail(email string) {
 ```
 
 > Complete the below Later
+>
 ## Defer in GoLang
+
 [ToC](#table-of-contents)
+
 ## Working with files in GO Lang
+
 [ToC](#table-of-contents)
-
-
 
 ## Handling Web Request in Go Lang
-[ToC](#table-of-contents)
 
+[ToC](#table-of-contents)
 
 ### `net/http` package
+
 [ToC](#table-of-contents)
 
-- When making a Get request using http package we get response of the `type Response struct` 
+- When making a Get request using http package we get response of the `type Response struct`
 - Do take care that ***neither `ReadResponse` nor `Response.Write` ever closes a connection.***
 
 ```go
@@ -810,48 +828,174 @@ func main() {
 ```
 
 ### using the `url` package
+
 [ToC](#table-of-contents)
 
 ```go
-// const url1 string = "https://jsonplaceholder.typicode.com/todos/1"
-const url1 string = "https://jsonplaceholder.typicode.com/comments?postId=1&userId=234"
+// const urlSite = "https://www.google.com/robots.txt"
+// const urlSite = "https://lco.dev"
+// const urlSite = "https://jsonplaceholder.typicode.com/posts"
+const urlSite = "http://localhost:8000"
 
 func main() {
-   fmt.Println("handling urls in go lang")
+   fmt.Println("Handling web requests")
 
-   // parsing the url
-   result, _ := url.Parse(url1)
+   getRequest()
+   performPostJsonReq()
+   PerformPostFormReq()
+}
 
-   fmt.Println("scheme : ", result.Scheme)         // https
-   fmt.Println("host : ", result.Host)             // jsonplaceholder.typicode.com
-   fmt.Println("path : ", result.Path)             // /comments
-   fmt.Println("port : ", result.Port())           //
-   fmt.Println("query params : ", result.RawQuery) // postId=1
+func getRequest() {
+   res, err := http.Get(urlSite)
 
-   // parsing the query params
-   queryParams := result.Query()
-   fmt.Println("queryParams : ", queryParams)             // queryParams :  map[postId:[1]]
-   fmt.Printf("Type of queryParams is %T\n", queryParams) // url.Values
-   // it returns a map
-   fmt.Println(`queryParams["postId"] :`, queryParams["postId"])
+   if err != nil {
+      panic(err)
+   }
+   defer res.Body.Close() // it is caller's responsibility to close the connection
+   // adding defer to this statement ensures that it will be executed at the end of the function, i.e., after everything else has been executed
 
-   for _, val := range queryParams { // the params in teaversing url.Values is key, value basically an interface
-      fmt.Println("param is : ", val)
+   fmt.Printf("Response is of Type : %T\n", res) // Response is of Type : *http.Response
+   fmt.Println("content length, status code : ", res.ContentLength, res.StatusCode, res.Status)
+   // note that it is returning a pointer to the acutal Response and not a copy of it, so it can be manipulated further.
+
+   databytes, err := io.ReadAll(res.Body) // ReadAll reads from r until an error or EOF and returns the data it read
+
+   if err != nil {
+      panic(err)
    }
 
-   partsOfUrl := &url.URL{
-      // & denotes that the acutal pointer to the url.URL is being passed so it can acutally be manipulated
-      // URL is a struct
-      Scheme:   "https",
-      Host:     "jsonplaceholder.typicode.com",
-      Path:     "/comments",
-      RawQuery: "postId=1&userId=234",
-   }
-   fmt.Printf("url parts : %T\n", partsOfUrl) // *url.URL
-   anotherUrl := partsOfUrl.String()
-   fmt.Println("another url : ", anotherUrl) // https://jsonplaceholder.typicode.com/comments?postId=1&userId=234
+   content := string(databytes) // it will give us the entire content, text/html whatever is there
+   fmt.Println("content : ", content)
 
+   var resStringBuilder strings.Builder
+   byteCount, _ := resStringBuilder.Write(databytes)
+   fmt.Println("byteCount : ", byteCount)
+   fmt.Println("resStringBuilder content : ", resStringBuilder.String())
+}
+
+func performPostJsonReq() {
+   urlParsed, err := url.Parse(urlSite)
+   if err != nil {
+      panic(err)
+   }
+   urlParsed.Path = "/post"
+   reqBody := strings.NewReader(`
+      {
+         "language":"golang",
+         "platform":"wsl"
+      }
+   `)
+
+   res, err := http.Post(urlParsed.String(), "application/json", reqBody)
+   if err != nil {
+      panic(err)
+   }
+   defer res.Body.Close()
+
+   content, err := io.ReadAll(res.Body)
+   if err != nil {
+      panic(err)
+   }
+   fmt.Println("content : ", string(content))
+}
+
+// POST API for form data in postman is from
+func PerformPostFormReq() {
+   api, err := url.Parse(urlSite)
+   if err != nil {
+      panic(err)
+   }
+   api.Path = "/postform"
+
+   formData := url.Values{}
+   formData.Add("firstName", "Adarsh")
+   formData.Add("lastName", "Singh")
+
+   fmt.Printf("data - type: %T,\nvalues : \n%+v\n", formData, formData)
+
+   res, err := http.PostForm(api.String(), formData)
+   if err != nil {
+      panic(err)
+   }
+   defer res.Body.Close()
+
+   content, err := io.ReadAll(res.Body)
+   if err != nil {
+      panic(err)
+   }
+   fmt.Println("content : ", string(content))
 }
 ```
 
-d
+### Go Mod
+[ToC](#table-of-contents)
+
+on running command `go get -u github.com/gorilla/mux` following is added into the go.mod file \
+`require github.com/gorilla/mux v1.8.1 // indirect` \
+**// indirect** means that is is not being currently used anywhere in the module
+
+In `go.sum` stores the pkg name, version & hash and any malicious update will not be imported.\
+The verification is done my go mod command
+
+`go env` contains a list of vars which are set by go.\
+`GOPATH='/home/adarsh20singh/go'` -> `/home/adarsh20singh/go/pkg/mod` this location contains pkgs that are installed inside `cache/download` folder.\
+
+#### building a basic server in Go
+
+```go
+
+func main() {
+   fmt.Println("mod in golang")
+   greeter()
+
+   r := mux.NewRouter()
+   r.HandleFunc("/", serveHome).Methods("GET")
+   log.Fatal(http.ListenAndServe(":4000", r))
+}
+func greeter() {
+   fmt.Println("welcome to go server")
+}
+func serveHome(w http.ResponseWriter, r *http.Request) {
+   w.Write([]byte("<h1>Welcome to golang series on YT</h1>"))
+}
+```
+
+note that on writing the above server code we are using mux pkg but still in gp.mod it will show `//indirect` on running `go mod tidy` it will update the go.mod file and remove it.
+
+`go mod verify` it goes into go.sum & tries to verify the hash of the files. \
+`go list` the currently open pkg \
+`go list all` list all pkgs that are installed \
+`go list -m all` list of pkg on which current pkg \
+`go list -m -versions github.com/gorilla/mux` list all versions of gorilla mux \
+`go mod tidy` cleans all the depending libs & removes all pkgs which is not in use. 
+
+`go mod why github.com/gorilla/mux` \
+res : 
+```bash
+# github.com/gorilla/mux
+github.com/adarsh27april/go-lang-tutorial/mymodules  --this is the module which is dependent on below module.
+github.com/gorilla/mux
+```
+
+`go mod graph` \
+res : \
+pkg name --- dependent on
+```bash
+github.com/adarsh27april/go-lang-tutorial/mymodules github.com/gorilla/mux@v1.8.1
+github.com/adarsh27april/go-lang-tutorial/mymodules go@1.22.4
+go@1.22.4 toolchain@go1.22.4
+```
+
+`go mod edit -go 1.16` to edit version number \
+`go mod edit -module newModuleName` to change the module name
+
+`go mod vendor` this  creates a folder `vendor` similar to `node_modules` in node env \
+and we need to pass a flag to run this with the pkg files stored in vendor \
+`go run -mod=vendor main.go` this will run it with pkg files from vendor folder only.
+
+vendor is not `advisable`
+
+
+# Building APIs in golang
+[ToC](#table-of-contents)
+
