@@ -16,6 +16,8 @@
   - [Arrays in Go Lang](#arrays-in-go-lang)
   - [Slices in GO Lang](#slices-in-go-lang)
   - [Maps in Go Lang](#maps-in-go-lang)
+    - [Using Struct Pointers as Map Keys](#using-struct-pointers-as-map-keys)
+    - [⚠️ Concurrency Warning:](#️-concurrency-warning)
   - [Structs in GO Lang](#structs-in-go-lang)
   - [Conditionals](#conditionals)
     - [THE INITIAL STATEMENT OF AN IF BLOCK](#the-initial-statement-of-an-if-block)
@@ -578,6 +580,68 @@ val == 'Java'
 val == 'Ruby'
 */
 ```
+
+### Using Struct Pointers as Map Keys
+
+You can use types other than strings as keys in Go maps, as long as the type is comparable (i.e., supports `==` and `!=`).
+
+Valid key types include:
+- Strings, numbers, booleans
+- Structs (if all their fields are comparable)
+- Pointers (e.g., *websocket.Conn)
+
+Invalid key types:
+- Slices
+- Maps
+- Functions
+
+Example: Using struct as key in Map \
+✅ Structs can be map keys only if all their fields are comparable. \
+❌ A struct with slices, maps, or functions as fields cannot be used as a key.
+```go
+type Person struct {
+   Name string
+   Age  int
+}
+
+people := make(map[Person]string)
+
+people[Person{"Alice", 30}] = "Engineer"
+people[Person{"Bob", 25}] = "Designer"
+
+for k, v := range people {
+   fmt.Println(k.Name, "is a", v)
+}
+// Output:
+// Alice is a Engineer
+// Bob is a Designer
+```
+
+Example: Using Pointer as a key in Map \
+This works because pointer addresses are unique and comparable.
+```go
+type Item struct {
+   ID int
+}
+
+item1 := &Item{ID: 1}
+item2 := &Item{ID: 2}
+
+m := make(map[*Item]string)
+m[item1] = "Item One"
+m[item2] = "Item Two"
+
+for ptr, val := range m {
+   fmt.Printf("Item with ID %d is called '%s'\n", ptr.ID, val)
+}
+// Output:
+// Item with ID 1 is called 'Item One'
+// Item with ID 2 is called 'Item Two'
+```
+
+### ⚠️ Concurrency Warning:
+
+If multiple goroutines are adding/removing from the map, use a `sync.Mutex` or `sync.Map` to protect access.
 
 ## Structs in GO Lang
 
