@@ -12,6 +12,12 @@
   - [Story of Time in GO Lang](#story-of-time-in-go-lang)
   - [Building for Windows, Linux, Mac](#building-for-windows-linux-mac)
   - [Memory Management in GO Lang](#memory-management-in-go-lang)
+  - [String in Go](#string-in-go)
+    - [1. Converting int / int32 → string](#1-converting-int--int32--string)
+    - [2. String Slicing (s\[2:5\])](#2-string-slicing-s25)
+    - [3. Check if a char in a string is a digit](#3-check-if-a-char-in-a-string-is-a-digit)
+    - [4. `strings.Builder`](#4-stringsbuilder)
+    - [5. Miscellaneous String Operations](#5-miscellaneous-string-operations)
   - [Pointers](#pointers)
   - [Arrays in Go Lang](#arrays-in-go-lang)
   - [Slices in GO Lang](#slices-in-go-lang)
@@ -19,6 +25,11 @@
     - [Using Struct Pointers as Map Keys](#using-struct-pointers-as-map-keys)
     - [⚠️ Concurrency Warning:](#️-concurrency-warning)
   - [Structs in GO Lang](#structs-in-go-lang)
+  - [JSON in GO](#json-in-go)
+    - [`io.Reader` \& `io.Writer`](#ioreader--iowriter)
+    - [A. Struct → JSON:  `[]bytes` / `io.Reader`](#a-struct--json--bytes--ioreader)
+    - [B. `io.Reader` / `[]byte` to Struct:](#b-ioreader--byte-to-struct)
+    - [C. Streaming JSON arrays safely](#c-streaming-json-arrays-safely)
   - [Conditionals](#conditionals)
     - [THE INITIAL STATEMENT OF AN IF BLOCK](#the-initial-statement-of-an-if-block)
   - [For loop](#for-loop)
@@ -428,6 +439,136 @@ Memory allocation & deallocation happens automatically in Go Lang.
 >
 > There is `NumCPU` in `runtime` package that returns the number of logical CPUs usable by the current process.
 
+
+## String in Go
+
+[ToC](#table-of-contents)
+
+### 1. Converting int / int32 → string
+```go
+
+Correct ways:
+s := fmt.Sprint(i)        // easiest
+s := strconv.Itoa(int(i)) // fastest, requires int() if i is int32/int64
+
+
+Never do:
+string(i) // converts to Unicode character, NOT "i"
+string(65) → "A"
+string(1)  → control character (invisible)
+```
+
+### 2. String Slicing (s[2:5])
+
+- Go strings are byte slices, not character slices.
+- s[a:b] returns the bytes from index a to b-1.
+```go
+s := "hello"
+sub := s[2:5] // "llo"
+```
+
+⚠️ If the string contains non-ASCII characters (Hindi, emojis, etc.) slicing by bytes can break them.
+Example
+
+
+**`Use Runes`**
+```go
+r := []rune(s)
+sub := string(r[2:5])
+```
+
+### 3. Check if a char in a string is a digit
+```go
+// Best (Unicode-safe)
+if unicode.IsDigit(rune(s[i])) { ... }
+// determines if a given Unicode "rune" in Go is a decimal digit (0-9 in various lang. scripts)
+
+
+// Fast ASCII-only:
+if s[i] >= '0' && s[i] <= '9' { ... }
+
+
+// Alternative:
+_, err := strconv.Atoi(string(s[i]))
+err == nil // means it's a digit
+```
+
+### 4. `strings.Builder`
+
+- `strings.Builder` uses an internal growable byte buffer.
+- Allocates a buffer once → Appends bytes/chars into that buffer → Builds the final string only once at the end.
+
+Problem:
+- Strings in Go are immutable.
+- Every s += "a" creates an entirely new string.
+- *That means new allocation* + *copying the old contents every time*.
+
+Result:
+
+- O(n<sup>2</sup>) behavior for large loops.
+- Huge waste of CPU and memory.
+
+```go
+var b strings.Builder
+b.WriteString("hello ")
+b.WriteString("world")
+result := b.String() // "hello world"
+```
+
+
+### 5. Miscellaneous String Operations
+
+```go
+// Length of a string: 
+len(s)          // bytes, not runes
+utf8.RuneCountInString(s) // correct count for unicode characters
+
+// Convert string ↔ []byte
+b := []byte(s)
+s2 := string(b)
+
+// Rune-safe iteration
+for _, r := range s {
+    fmt.Println(string(r))
+}
+
+
+// String Replace Opetations: 
+strings.Replace(s, "old", "new") // replace 1st occurrence
+strings.Replace(s, "old", "new", -1) // replace all
+strings.ReplaceAll(s, "old", "new") 
+
+// String Split Ops:
+parts := strings.Split(s, ",") // split by delimeter
+fields := strings.Fields(s) // split by whitespace
+
+
+// Join String array:
+var parts = []string{"Go", "is", "Awesome"}
+s := strings.Join(parts, "-") // "Go-is-Awesome"
+
+strings.ToUpper(s) // "GO-IS-AWESOME"
+strings.ToLower(s) // "go-is-awesome"
+
+// TrimSpace:
+strings.TrimSpace(s)             // remove leading/trailing spaces
+strings.Trim(s, "g") // go-is-awesome -> o-is-awesome - removes leading & trailing `g`
+strings.TrimPrefix(s, "Go") // -is-awesome
+strings.TrimSuffix(s, "some") // Go-is-awe - removes trailing `some`
+strings.TrimLeft(s, "go") // -is-awesome
+strings.TrimRight(s, "some") // Go-is-awe
+
+
+// Substring Ops: 
+strings.HasPrefix(s, "Go") // true
+strings.HasSuffix(s, "is") // false
+strings.Contains(s, "-awe") // true
+idx := strings.Index(s, "go")     // -1 if not found
+idx := strings.LastIndex(s, "go") // last occurrence
+```
+
+
+
 ## Pointers
 
 [ToC](#table-of-contents)
@@ -678,6 +819,122 @@ type NewUser struct {
    abc    int //  note that abc is not exportable since 'a' is small
 }
 ```
+
+## JSON in GO
+
+- `json.Marshal(v)` → ([]byte, error)
+- `json.Unmarshal([]byte, &v)` → error
+- `json.NewEncoder(w)` → writes JSON to `io.Writer` (**Encode**)
+- `json.NewDecoder(r)` → reads JSON from `io.Reader` (**Decode**)
+- `bytes.NewReader(b)` / `strings.NewReader(s)` / `&bytes.Buffer{}` → common `io.Reader` sources
+- `io.NopCloser(io.Reader)` → io.ReadCloser wrapper
+
+
+### `io.Reader` & `io.Writer`
+
+`io.Reader` = anything that lets you read bytes
+`io.Writer` = anything that lets you write bytes
+
+> `io.Reader` is a Go interface that represents any source you can read bytes from. \
+> If a type has a `Read` method with this signature, it automatically becomes an `io.Reader`.
+
+> `io.Writer` It represents anything you can write bytes into.
+
+> Instead of writing functions tied to specific types (file → JSON → buffer → network), Go uses interfaces so the same function works with any source or destination.
+
+Example:
+```go
+This function works with a file, network socket, buffer, or HTTP body:
+
+func ReadAllData(r io.Reader) ([]byte, error) {
+   return io.ReadAll(r)
+}
+```
+You don't need separate logic for: reading from a file, reading from an HTTP response, reading from an in-memory string
+
+
+`json.NewEncoder(w).Encode(data)` this code allows writing JSON directly to any `io.Writer` (file, network socket , buffer, HTTP response body, etc.) it just writes `[]byte`.
+
+> Encode struct → JSON → Writer
+> `json.NewEncoder(w).Encode(v)`
+>
+> Decode JSON from Reader → struct
+> `json.NewDecoder(r).Decode(&v)`
+
+
+### A. Struct → JSON:  `[]bytes` / `io.Reader`
+
+```go
+// Struct → JSON bytes
+body, err := json.Marshal(myStruct) // body is []byte containing JSON.
+// Use json.MarshalIndent for pretty printing.
+
+// A. Struct → JSON → io.Reader (for HTTP requests, etc.)
+r := bytes.NewReader(body) // r is io.Reader
+req, _ := http.NewRequest("POST", url, r) ...
+
+
+// B. Using bytes.Buffer + json.NewEncoder (no extra []byte allocation)
+var buf bytes.Buffer
+if err := json.NewEncoder(&buf).Encode(myStruct); err != nil {...}
+req, _ := http.NewRequest("POST", url, &buf) // buf is io.Reader
+```
+> `Encoder.Encode` writes JSON directly to the writer and appends a newline. Avoids an intermediate `[]byte`.
+
+
+> `bytes.NewReader` returns `*bytes.Reader`, which implements `io.Reader`.
+```go
+// JSON bytes → io.Reader: 
+reader := bytes.NewReader(b)
+
+// Struct → io.Reader:
+var buf bytes.Buffer
+json.NewEncoder(&buf).Encode(myStruct)
+reader := &buf // io.Reader
+```
+
+### B. `io.Reader` / `[]byte` to Struct: 
+
+```go
+// A. Full read into bytes then unmarshal
+b, err := io.ReadAll(r) // b is []byte
+if err != nil { ... }
+
+var v MyStruct
+if err := json.Unmarshal(b, &v); err != nil { ... }
+// convsets bson []bytes b to struct v
+// Simpler but uses memory proportional to payload size.
+
+
+// B. Stream decode (recommended for large or streaming input)
+dec := json.NewDecoder(r)
+var v MyStruct
+if err := dec.Decode(&v); err != nil {...}
+// Decoder reads from the io.Reader progressively; lower peak memory.
+
+```
+
+### C. Streaming JSON arrays safely
+When server sends [{...},{...},...]:
+```go
+dec := json.NewDecoder(r)
+
+// read open bracket
+tok, _ := dec.Token()
+if delim, ok := tok.(json.Delim); !ok || delim != '[' {
+   // handle invalid JSON which is not containing array
+}
+
+for dec.More() {
+   var v MyStruct
+   if err := dec.Decode(&v); err != nil { /*handle if json array item not of type MyStruct*/ }
+   // process v
+}
+
+// read closing bracket
+_, _ = dec.Token()
+```
+Good for large lists: avoids loading entire array into memory.
 
 ## Conditionals
 
